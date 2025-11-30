@@ -1,0 +1,5 @@
+inherits: "base.yaml"
+training:
+  mode: "partial"  # (b)
+  unfreeze_layers: 2
+  lr: 5e-5

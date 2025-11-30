@@ -1,0 +1,4 @@
+inherits: "base.yaml"
+training:
+  mode: "full"     # (c)
+  lr: 1e-5

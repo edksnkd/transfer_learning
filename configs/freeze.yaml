@@ -1,0 +1,4 @@
+inherits: "base.yaml"
+training:
+  mode: "freeze"   # (a)
+  lr: 1e-3         
