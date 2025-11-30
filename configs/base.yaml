@@ -1,0 +1,9 @@
+model_name: "google/vit-base-patch16-224"
+batch_size: 32
+epochs: 10
+lr: 1e-4
+weight_decay: 1e-4
+seed: 42
+image_size: 224
+dataset_path: "data/processed"
+save_dir: "experiments"
