@@ -1,36 +1,33 @@
-Вот вариант “красивого” README, который можно сразу разместить на GitHub. Он компактный, с бейджами и визуальной структурой:
-
----
-
-# 🚀 Transfer Learning with MobileNetV2 on CIFAR Dataset
+# Transfer Learning с MobileNetV2 на датасете CIFAR
 
 [![Python](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.1-red.svg)](https://pytorch.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-This repository demonstrates **transfer learning** using **MobileNetV2** for classification on selected classes from **CIFAR-10**. Supports **Freeze**, **Partial**, and **Full** fine-tuning modes.
+В репозитории реализован пример **transfer learning** с использованием архитектуры **MobileNetV2** для задачи классификации изображений на подмножестве классов датасета **CIFAR-10**.
+Поддерживаются режимы **Freeze**, **Partial Fine-tuning** и **Full Fine-tuning**.
 
 ---
 
-## 📂 Project Structure
+## Структура проекта
 
 ```
 transfer_curs/
 │
-├── configs/          # YAML configs for training modes
-├── data/             # CIFAR-10 dataset folder
+├── configs/          # YAML-конфигурации режимов обучения
+├── data/             # CIFAR-10 и загрузчики данных
 ├── src/
-│   ├── models/       # Model loading & freezing utilities
-│   └── training/     # Training scripts & Trainer class
-├── utils/            # Config loader, seed setting, helpers
-├── outputs/          # Saved plots & checkpoints
-├── test.py           # Test model and trainable parameters
-└── main_train.py     # Full training with visualization
+│   ├── models/       # Загрузка моделей и логика заморозки слоёв
+│   └── training/     # Тренировочный цикл и класс Trainer
+├── utils/            # Утилиты (config, seed и др.)
+├── outputs/          # Графики и чекпойнты
+├── test.py           # Проверка модели и числа обучаемых параметров
+└── main_train.py     # Полный запуск обучения и визуализация
 ```
 
 ---
 
-## ⚙️ Installation
+## Установка
 
 ```bash
 git clone https://github.com/<your-username>/transfer_curs.git
@@ -42,17 +39,17 @@ pip install torch torchvision matplotlib seaborn pyyaml
 
 ---
 
-## 📝 Configuration
+## Конфигурация
 
-Control training via YAML files in `configs/`:
+Обучение управляется YAML-файлами в директории `configs/`.
 
-| Config         | Mode              | Description                  |
-| -------------- | ----------------- | ---------------------------- |
-| `freeze.yaml`  | Freeze all layers | Only classifier is trainable |
-| `partial.yaml` | Partial unfreeze  | Last N layers trainable      |
-| `full.yaml`    | Full fine-tune    | Entire model trainable       |
+| Конфигурация   | Режим             | Описание                          |
+| -------------- | ----------------- | --------------------------------- |
+| `freeze.yaml`  | Freeze            | Обучается только классификатор    |
+| `partial.yaml` | Partial Fine-tune | Размораживаются последние N слоёв |
+| `full.yaml`    | Full Fine-tune    | Обучается вся модель              |
 
-**Example (`freeze.yaml`):**
+Пример `freeze.yaml`:
 
 ```yaml
 inherits: "base.yaml"
@@ -63,68 +60,79 @@ training:
 
 ---
 
-## 🏃 Usage
+## Использование
 
-### 1. Test the model
+### Проверка модели
 
 ```bash
 python test.py --config configs/freeze.yaml
 ```
 
-* Prints total & trainable parameters for each mode.
-* Verifies forward pass.
+Скрипт:
 
-### 2. Train the model
+* выводит общее число параметров;
+* показывает количество обучаемых параметров для каждого режима;
+* проверяет корректность прямого прохода (forward pass).
+
+---
+
+### Обучение модели
 
 ```bash
 python main_train.py
 ```
 
-* Trains **Freeze**, **Partial**, **Full** modes.
-* Saves **loss** and **accuracy curves** in `outputs/plots/`.
+В процессе:
+
+* последовательно обучаются режимы **Freeze**, **Partial**, **Full**;
+* сохраняются графики функции потерь и точности в `outputs/plots/`.
 
 ---
 
-## 📊 Results
+## Результаты
 
-Example after 10 epochs on 3 classes:
+Пример результатов после 10 эпох обучения на 3 классах CIFAR-10:
 
-| Mode    | Val Accuracy |
-| ------- | ------------ |
-| Freeze  | 69%          |
-| Partial | 73%          |
-| Full    | 87%          |
+| Режим   | Точность на валидации |
+| ------- | --------------------- |
+| Freeze  | ~69%                  |
+| Partial | ~73%                  |
+| Full    | ~87%                  |
 
-**Plots:**
+Сохраняемые графики:
 
-* `outputs/plots/loss_curves.png` – training & validation loss
-* `outputs/plots/accuracy_curves.png` – training & validation accuracy
-
-![Loss Curves](outputs/plots/loss_curves.png)
-![Accuracy Curves](outputs/plots/accuracy_curves.png)
+* `outputs/plots/loss_curves.png` — loss на train и val
+* `outputs/plots/accuracy_curves.png` — accuracy на train и val
 
 ---
 
-## 📚 Dataset
+## Датасет
 
-Default: **CIFAR-10**
+Используется датасет **CIFAR-10**.
 
-Select classes in config:
+Выбор классов осуществляется в конфигурационном файле:
 
 ```yaml
 data:
   type: "cifar10"
-  classes: [0, 1, 2]  # Example subset
+  classes: [0, 1, 2]  # Подмножество классов
   batch_size: 32
   image_size: 32
 ```
 
-> ⚠️ Number of classes must match dataset labels.
+Важно:
+Количество выходных классов модели должно соответствовать длине списка `classes`.
 
 ---
 
-## 📄 License
+## Лицензия
 
 MIT License
 
 ---
+
+Если хочешь, следующим шагом можем:
+
+* добавить **описание экспериментов и выводы** (как в отчёте),
+* или оформить README под **ML-портфолио / собеседование**,
+* или добавить раздел *“What I learned / Key takeaways”*.
