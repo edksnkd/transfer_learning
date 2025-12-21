@@ -1,17 +1,20 @@
 seed: 42
 output_dir: "outputs"
+early_stopping_patience: 3
 
 data:
   type: "cifar10"
-  classes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  classes: [0, 1, 2]
   max_per_class: 500
   batch_size: 32
+  val_ratio: 0.2
   img_size: 32
 
 model:
   name: "mobilenet_v2"
   num_classes: 3
   pretrained: true
+
 
 training:
   epochs: 10
